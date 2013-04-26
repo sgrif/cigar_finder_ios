@@ -33,11 +33,13 @@ class ResultsScreen < ProMotion::GroupedTableScreen
   private
 
   def load_data
-    data = {cigar: cigar_name, latitude: 35.0844, longitude: -106.6506}
-    BW::HTTP.get('http://cigar-finder.com/cigar_search_results.json', payload: data) do |response|
-      if response.ok?
-        self.results = SearchResults.from_json(BW::JSON.parse(response.body.to_s))
-        self.table_data = ResultsTableCells.new(results)
+    LocationLookup.new(location_name).load do |location|
+      data = {cigar: cigar_name, latitude: location.latitude, longitude: location.longitude}
+      BW::HTTP.get('http://cigar-finder.com/cigar_search_results.json', payload: data) do |response|
+        if response.ok?
+          self.results = SearchResults.from_json(BW::JSON.parse(response.body.to_s))
+          self.table_data = ResultsTableCells.new(results)
+        end
       end
     end
   end
