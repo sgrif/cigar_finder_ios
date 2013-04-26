@@ -18,6 +18,10 @@ class ResultsScreen < ProMotion::GroupedTableScreen
     navigation_controller.navigationBar.topItem.title = 'Back'
   end
 
+  def search_result_tapped(args = {})
+    puts "#{args[:search_result].cigar_store.name} tapped!"
+  end
+
   private
 
   def load_data
@@ -25,7 +29,6 @@ class ResultsScreen < ProMotion::GroupedTableScreen
     BW::HTTP.get('http://cigar-finder.com/cigar_search_results.json', payload: data) do |response|
       if response.ok?
         results = SearchResults.from_json(BW::JSON.parse(response.body.to_s))
-        puts ResultsTableCells.new(results).to_a.inspect
         self.table_data = ResultsTableCells.new(results).to_a
       end
     end

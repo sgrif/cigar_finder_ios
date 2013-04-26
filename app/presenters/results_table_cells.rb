@@ -27,11 +27,13 @@ class ResultsTableCells
   end
 
   def formatted_results(macro)
-    results.send(macro).map do |item|
+    results.send(macro).map do |search_result|
       {
-          title: item.cigar_store.name,
-          subtitle: "Last reported #{item.updated_at.stringWithTimeDifference}",
-          cell_style: :subtitle.uitablecellstyle
+          title: search_result.cigar_store.name,
+          subtitle: "Last reported #{search_result.updated_at.stringWithTimeDifference}",
+          cell_style: :subtitle.uitablecellstyle,
+          action: :search_result_tapped,
+          arguments: { search_result: search_result }
       }
     end
   end
