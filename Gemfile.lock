@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ProMotion (0.5.2)
+    bubble-wrap (1.1.5)
     motion-layout (0.0.1)
     sugarcube (0.20.16)
 
@@ -10,5 +11,6 @@ PLATFORMS
 
 DEPENDENCIES
   ProMotion
+  bubble-wrap
   motion-layout
   sugarcube
