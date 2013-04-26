@@ -3,7 +3,6 @@ class ResultDetailScreen < ProMotion::Screen
 
   def will_appear
     self.title = search_result.cigar_store.name
-    navigation_controller.navigationBar.topItem.title = 'Back'
     view.backgroundColor = :white.uicolor
 
     Motion::Layout.new do |layout|
@@ -74,12 +73,18 @@ class ResultDetailScreen < ProMotion::Screen
   def report_carried
     @report_carried ||= UIButton.rounded_rect.tap do |button|
       button.setTitle('Report Carried', forState: :normal.uistate)
+      button.on(:touch) do
+        close(search_result: search_result, report_carried: true)
+      end
     end
   end
 
   def report_not_carried
     @report_not_carried ||= UIButton.rounded_rect.tap do |button|
       button.setTitle('Report Not Carried', forState: :normal.uistate)
+      button.on(:touch) do
+        close(search_result: search_result, report_carried: false)
+      end
     end
   end
 end

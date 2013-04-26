@@ -1,4 +1,6 @@
 class SearchFormScreen < ProMotion::Screen
+  title 'Search'
+
   def will_appear
     view.backgroundColor = :white.uicolor
     navigation_controller.navigationBar.hidden = true

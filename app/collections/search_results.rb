@@ -1,7 +1,9 @@
 class SearchResults
   include Enumerable
+  include Delegation
 
   attr_reader :results
+  delegate :each, to: :results
 
   def self.from_json(json)
     new(json.map { |hash| SearchResult.from_hash(hash) })
@@ -9,6 +11,10 @@ class SearchResults
 
   def initialize(results)
     @results = results
+  end
+
+  def resort
+    @carried, @not_carried, @no_information = nil
   end
 
   def carried
@@ -20,6 +26,6 @@ class SearchResults
   end
 
   def no_information
-    results - carried - not_carried
+    @no_information ||= results - carried - not_carried
   end
 end

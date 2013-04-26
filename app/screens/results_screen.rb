@@ -1,9 +1,8 @@
 class ResultsScreen < ProMotion::GroupedTableScreen
-  attr_accessor :cigar_name, :location_name
+  attr_accessor :cigar_name, :location_name, :results
   attr_reader :table_data
 
   def on_load
-    self.title = cigar_name
     @table_data ||= []
     load_data
   end
@@ -14,12 +13,21 @@ class ResultsScreen < ProMotion::GroupedTableScreen
   end
 
   def will_appear
+    self.title = cigar_name
     navigation_controller.navigationBar.hidden = false
-    navigation_controller.navigationBar.topItem.title = 'Back'
   end
 
   def search_result_tapped(args = {})
     open ResultDetailScreen.new(search_result: args[:search_result])
+  end
+
+  def on_return(args = {})
+    search_result = args[:search_result]
+    if search_result
+      args[:report_carried] ? search_result.report_carried : search_result.report_not_carried
+      table_data.resort
+      update_table_data
+    end
   end
 
   private
@@ -28,8 +36,8 @@ class ResultsScreen < ProMotion::GroupedTableScreen
     data = {cigar: cigar_name, latitude: 35.0844, longitude: -106.6506}
     BW::HTTP.get('http://cigar-finder.com/cigar_search_results.json', payload: data) do |response|
       if response.ok?
-        results = SearchResults.from_json(BW::JSON.parse(response.body.to_s))
-        self.table_data = ResultsTableCells.new(results).to_a
+        self.results = SearchResults.from_json(BW::JSON.parse(response.body.to_s))
+        self.table_data = ResultsTableCells.new(results)
       end
     end
   end

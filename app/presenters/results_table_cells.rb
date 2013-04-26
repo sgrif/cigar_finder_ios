@@ -5,9 +5,15 @@ class ResultsTableCells
   attr_reader :results
 
   delegate :each, to: :cells
+  delegate :length, :at, to: :to_a
 
   def initialize(results)
     @results = results
+  end
+
+  def resort
+    @cells = nil
+    results.resort
   end
 
   def cells
