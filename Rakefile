@@ -13,5 +13,6 @@ Motion::Project::App.setup do |app|
 
   app.pods do
     pod 'NSDate-TimeDifference', '~> 1.0.1'
+    pod 'MLPAutoCompleteTextField', '~> 1.3'
   end
 end

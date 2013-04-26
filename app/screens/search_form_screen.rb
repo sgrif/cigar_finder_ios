@@ -1,21 +1,26 @@
 class SearchFormScreen < ProMotion::Screen
   title 'Search'
+  attr_accessor :cigars
+
+  def on_load
+    @cigars ||= []
+    load_cigar_names
+  end
 
   def will_appear
     view.backgroundColor = :white.uicolor
     navigation_controller.navigationBar.hidden = true
 
 
-    @cigar_name ||= add UITextField.new,
+    @cigar_name ||= add MLPAutoCompleteTextField.new,
                       placeholder: "Type of cigar you're looking for",
-                      textAlignment: :center.uitextalignment,
                       borderStyle: :rounded.uiborderstyle,
-                      delegate: self
+                      delegate: self,
+                      autoCompleteDataSource: self
     @cigar_name.returnKeyType = :next.uireturnkey
 
     @location_name ||= add UITextField.new,
                            placeholder: 'Location (Optional)',
-                           textAlignment: :center.uitextalignment,
                            borderStyle: :rounded.uiborderstyle,
                            delegate: self
     @location_name.returnKeyType = :search.uireturnkey
@@ -36,6 +41,14 @@ class SearchFormScreen < ProMotion::Screen
     end
   end
 
+  def load_cigar_names
+    BW::HTTP.get('http://cigar-finder.com/cigars.json') do |response|
+      if response.ok?
+        self.cigars = BW::JSON.parse(response.body.to_s)
+      end
+    end
+  end
+
   def search_tapped(event)
     open ResultsScreen.new(cigar_name: @cigar_name.text, location_name: @location_name.text)
   end
@@ -49,5 +62,9 @@ class SearchFormScreen < ProMotion::Screen
         @search_button.trigger(:touch)
     end
     false
+  end
+
+  def autoCompleteTextField(text_field, possibleCompletionsForString: string)
+    cigars.select { |item| item.start_with?(string) }
   end
 end
