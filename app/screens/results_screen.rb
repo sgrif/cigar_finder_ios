@@ -19,7 +19,7 @@ class ResultsScreen < ProMotion::GroupedTableScreen
   end
 
   def search_result_tapped(args = {})
-    puts "#{args[:search_result].cigar_store.name} tapped!"
+    open ResultDetailScreen.new(search_result: args[:search_result])
   end
 
   private

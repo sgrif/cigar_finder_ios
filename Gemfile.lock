@@ -1,3 +1,8 @@
+PATH
+  remote: /Users/sean/builds/motion-layout
+  specs:
+    motion-layout (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -28,7 +33,6 @@ GEM
     json (1.7.7)
     motion-cocoapods (1.2.2)
       cocoapods (>= 0.14.0)
-    motion-layout (0.0.1)
     multi_json (1.7.2)
     multipart-post (1.2.0)
     netrc (0.7.7)
@@ -53,5 +57,5 @@ DEPENDENCIES
   ProMotion
   bubble-wrap
   motion-cocoapods
-  motion-layout
+  motion-layout!
   sugarcube
