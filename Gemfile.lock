@@ -1,24 +1,14 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (3.2.13)
-      i18n (= 0.6.1)
-      multi_json (~> 1.0)
-    colored (1.2)
-    i18n (0.6.1)
-    ib (0.2.10)
-      thor (>= 0.15.4)
-      xcodeproj (>= 0.4.1)
-    multi_json (1.7.2)
+    ProMotion (0.5.2)
+    motion-layout (0.0.1)
     sugarcube (0.20.16)
-    thor (0.18.1)
-    xcodeproj (0.5.5)
-      activesupport (~> 3.2.13)
-      colored (~> 1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  ib
+  ProMotion
+  motion-layout
   sugarcube

@@ -1,3 +1,4 @@
 source 'https://rubygems.org'
-gem 'ib'
+gem 'ProMotion'
+gem 'motion-layout'
 gem 'sugarcube'
