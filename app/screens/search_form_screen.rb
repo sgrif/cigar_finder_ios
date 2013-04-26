@@ -1,36 +1,37 @@
 class SearchFormScreen < ProMotion::Screen
-  def on_load
+  def will_appear
     view.backgroundColor = :white.uicolor
+    navigation_controller.navigationBar.hidden = true
 
-    @cigar_name = UITextField.new
-    @cigar_name.placeholder = "Type of cigar you're looking for"
-    @cigar_name.textAlignment = :center.uitextalignment
-    @cigar_name.borderStyle = :rounded.uiborderstyle
-    @cigar_name.delegate = self
 
-    @location_name = UITextField.new
-    @location_name.placeholder = 'Location (Optional)'
-    @location_name.textAlignment = :center.uitextalignment
-    @location_name.borderStyle = :rounded.uiborderstyle
-    @location_name.delegate = self
+    @cigar_name ||= add UITextField.new,
+                      placeholder: "Type of cigar you're looking for",
+                      textAlignment: :center.uitextalignment,
+                      borderStyle: :rounded.uiborderstyle,
+                      delegate: self
+    @cigar_name.returnKeyType = :next.uireturnkey
 
-    @search_button = UIButton.rounded_rect
-    @search_button.setTitle('Find it!', forState: :normal.uistate)
-    @search_button.on(:touch, &method(:search_tapped))
+    @location_name ||= add UITextField.new,
+                           placeholder: 'Location (Optional)',
+                           textAlignment: :center.uitextalignment,
+                           borderStyle: :rounded.uiborderstyle,
+                           delegate: self
+    @location_name.returnKeyType = :search.uireturnkey
+
+    @search_button ||= UIButton.rounded_rect.tap do |button|
+      button.setTitle('Find it!', forState: :normal.uistate)
+      button.on(:touch, &method(:search_tapped))
+    end
 
     Motion::Layout.new do |layout|
       layout.view view
       layout.subviews 'cigar_name' => @cigar_name, 'location_name' => @location_name, 'search_button' => @search_button
-      layout.metrics 'top' => 200
+      layout.metrics 'top' => 100
       layout.vertical '|-top-[cigar_name]-[location_name]-[search_button]'
       layout.horizontal '|-[cigar_name]-|'
       layout.horizontal '|-[location_name]-|'
       layout.horizontal '|-[search_button]-|'
     end
-  end
-
-  def will_appear
-    navigation_controller.navigationBar.hidden = true
   end
 
   def search_tapped(event)
@@ -39,6 +40,12 @@ class SearchFormScreen < ProMotion::Screen
 
   def textFieldShouldReturn(text_field)
     text_field.resignFirstResponder
+    case text_field
+      when @cigar_name
+        @location_name.becomeFirstResponder
+      when @location_name
+        @search_button.trigger(:touch)
+    end
     false
   end
 end
