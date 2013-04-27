@@ -17,6 +17,8 @@ Motion::Project::App.setup do |app|
     pod 'MLPAutoCompleteTextField', '~> 1.3'
   end
 
+  app.info_plist['UIBackgroundModes'] = %w(location)
+
   app.provisioning_profile = '/Users/sean/Library/MobileDevice/Provisioning Profiles/3656CA0A-5915-4123-A32E-36F028F1327F.mobileprovision'
 
   app.testflight.sdk = 'vendor/TestFlight'
