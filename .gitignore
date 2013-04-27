@@ -17,3 +17,4 @@ nbproject
 ib.xcodeproj
 /.dat*
 /vendor/
+app/testflight_launcher.rb

@@ -15,4 +15,8 @@ Motion::Project::App.setup do |app|
     pod 'NSDate-TimeDifference', '~> 1.0.1'
     pod 'MLPAutoCompleteTextField', '~> 1.3'
   end
+
+  app.testflight.sdk = 'vendor/TestFlight'
+  app.testflight.api_token = '2f1a38248336d55aa445156b24aabec5_MTAxNTAwNTIwMTMtMDQtMjYgMTQ6MTU6MzIuNDc2MDEx'
+  app.testflight.team_token = '5d42a39b132c99381195fae586ac51f9_MjE2ODg2MjAxMy0wNC0yNiAxOTo0NToyOS41Mjg3NTE'
 end
