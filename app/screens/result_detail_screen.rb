@@ -48,6 +48,9 @@ class ResultDetailScreen < ProMotion::Screen
   def map_button
     @map_button ||= UIButton.rounded_rect.tap do |button|
       button.setTitle('Map', forState: :normal.uistate)
+      button.on(:touch) do
+        App.open_url(search_result.cigar_store.map_url)
+      end
     end
   end
 
