@@ -18,7 +18,10 @@ class StoreProximity
 
   def locationManager(_, didEnterRegion: region)
     cigar_store = cigar_stores.find { |store| store.name == region.identifier }
-    puts "You are at #{cigar_store.name}!"
+    notification = UILocalNotification.new
+    notification.alertBody = "You are at #{cigar_store.name}!"
+    notification.soundName = UILocalNotificationDefaultSoundName
+    App.shared.presentLocalNotificationNow(notification)
   end
 
   private
