@@ -5,6 +5,6 @@ class AppDelegate < ProMotion::AppDelegateParent
   end
 
   def location_manager
-    @location_manager ||= LocationManager.new
+    @location_manager ||= LocationListener.new
   end
 end
