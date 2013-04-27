@@ -12,13 +12,32 @@ class StoreProximity
   def monitor
     NearbyStores.new(location).load do |cigar_stores|
       self.cigar_stores = cigar_stores
-      update_proximity_notifications
+      update_proximity_alerts
     end
+  end
+
+  def locationManager(_, didEnterRegion: region)
+    cigar_store = cigar_stores.find { |store| store.name == region.identifier }
+    puts "You are at #{cigar_store.name}!"
   end
 
   private
 
-  def update_proximity_notifications
+  def update_proximity_alerts
+    remove_proximity_alerts
+    create_proximity_alerts
+  end
 
+  def create_proximity_alerts
+    cigar_stores.map do |cigar_store|
+      region = MonitoredRegion.new(cigar_store)
+      location_manager.startMonitoringForRegion(region)
+    end
+  end
+
+  def remove_proximity_alerts
+    location_manager.monitoredRegions.allObjects.map do |monitored_region|
+      location_manager.stopMonitoringForRegion(monitored_region)
+    end
   end
 end

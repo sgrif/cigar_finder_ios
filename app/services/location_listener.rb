@@ -10,7 +10,8 @@ class LocationListener
     new_location = locations.last
     if significant_change_from?(new_location)
       self.last_update_location = new_location
-      StoreProximity.new(location).monitor
+      @store_proximity = StoreProximity.new(new_location)
+      @store_proximity.monitor
     end
   end
 
