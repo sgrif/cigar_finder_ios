@@ -57,6 +57,9 @@ class ResultDetailScreen < ProMotion::Screen
   def directions_button
     @directions_button ||= UIButton.rounded_rect.tap do |button|
       button.setTitle('Directions', forState: :normal.uistate)
+      button.on(:touch) do
+        App.open_url(search_result.cigar_store.directions_url)
+      end
     end
   end
 
