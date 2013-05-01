@@ -10,7 +10,7 @@ Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'Cigar Finder'
 
-  app.frameworks += %w(CoreLocation MapKit)
+  app.frameworks += %w(CoreLocation MapKit QuartzCore)
 
   app.pods do
     pod 'NSDate-TimeDifference', '~> 1.0.1'
@@ -19,7 +19,7 @@ Motion::Project::App.setup do |app|
 
   app.info_plist['UIBackgroundModes'] = %w(location)
 
-  app.provisioning_profile = '/Users/sean/Library/MobileDevice/Provisioning Profiles/3656CA0A-5915-4123-A32E-36F028F1327F.mobileprovision'
+  app.provisioning_profile = '/Users/sean/Library/MobileDevice/Provisioning Profiles/5B24C72B-6B0E-4A1E-B024-19FACE57B4F8.mobileprovision'
 
   app.testflight.sdk = 'vendor/TestFlight'
   app.testflight.api_token = '2f1a38248336d55aa445156b24aabec5_MTAxNTAwNTIwMTMtMDQtMjYgMTQ6MTU6MzIuNDc2MDEx'
