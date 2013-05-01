@@ -1,9 +1,10 @@
-class AutoCompleteFormTextInput < MLPAutoCompleteTextField
+class FormTextInput < UITextField
   include FormTextStyle
 
-  def initialize
+  def init
     super
     apply_style
+    self
   end
 
   def textRectForBounds(bounds)
