@@ -12,27 +12,15 @@ class SearchFormScreen < ProMotion::Screen
     NSNotificationCenter.defaultCenter.addObserver(self, selector: 'keyboardWillHide:', name: UIKeyboardWillHideNotification, object: nil)
     navigation_controller.navigationBar.hidden = true
 
-    @search_button ||= UIButton.rounded_rect.tap do |button|
-      button.setTitle('Find it!', forState: :normal.uistate)
-      button.on(:touch, &method(:search_tapped))
-    end
-
     Motion::Layout.new do |layout|
       layout.view view
-      layout.subviews 'logo' => logo, 'cigar_name' => cigar_name, 'location_name' => location_name, 'search_button' => @search_button
-      layout.metrics 'padding' => 35
-      layout.vertical '|-padding-[logo]-padding-[cigar_name]-[location_name]-padding-[search_button]'
+      layout.subviews 'logo' => logo, 'cigar_name' => cigar_name, 'location_name' => location_name, 'search_button' => search_button
+      layout.metrics 'padding' => 35, 'button_height' => 38, 'input_height' => FormTextStyle::HEIGHT
+      layout.vertical '|-padding-[logo]-padding-[cigar_name(==input_height)]-[location_name(==input_height)]-padding-[search_button(==38)]'
       layout.horizontal '|-[cigar_name]-|'
       layout.horizontal '|-[location_name]-|'
       layout.horizontal '|-[search_button]-|'
     end
-  end
-
-  def on_appear
-    gradient = CAGradientLayer.layer
-    gradient.frame = @search_button.bounds
-    gradient.colors = ['#943536'.to_color.CGColor, '#701F1B'.to_color.CGColor]
-    @search_button.layer.insertSublayer(gradient, atIndex: 0)
   end
 
   def load_cigar_names
@@ -89,6 +77,17 @@ class SearchFormScreen < ProMotion::Screen
       input.placeholder = 'Location (Optional)'
       input.delegate = self
       input.returnKeyType = :search.uireturnkey
+    end
+  end
+
+  def search_button
+    @search_button ||= UIButton.rounded_rect.tap do |button|
+      button.setTitle('Find it!', forState: :normal.uistate)
+      button.on(:touch, &method(:search_tapped))
+      background = UIImage.imageNamed('button_background')
+      button.setBackgroundImage(background, forState: :normal.uistate)
+      button.setTitleColor(:white.uicolor, forState: :normal.uistate)
+      button.font = UIFont.systemFontOfSize(14)
     end
   end
 

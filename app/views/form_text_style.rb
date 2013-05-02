@@ -1,11 +1,10 @@
 module FormTextStyle
+  HEIGHT = 39
+
   def apply_style
-    layer.cornerRadius = 4.0
-    layer.masksToBounds = true
-    layer.borderColor = :black.uicolor.CGColor
-    layer.borderWidth = 1.0
-    self.backgroundColor = :black.uicolor(0.5)
+    self.background = UIImage.imageNamed('form_input.png')
     self.textColor = :white.uicolor
+    self.font = UIFont.systemFontOfSize(14)
   end
 
   def padding_for_bounds(bounds)
