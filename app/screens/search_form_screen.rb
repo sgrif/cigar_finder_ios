@@ -14,10 +14,15 @@ class SearchFormScreen < ProMotion::Screen
 
     Motion::Layout.new do |layout|
       layout.view view
-      layout.subviews 'logo' => logo, 'cigar_name' => cigar_name, 'location_name' => location_name, 'search_button' => search_button
-      layout.metrics 'padding' => 35, 'button_height' => 38, 'input_height' => FormTextStyle::HEIGHT
-      layout.vertical '|-padding-[logo]-padding-[cigar_name(==input_height)]-[location_name(==input_height)]-padding-[search_button(==38)]'
+      layout.subviews 'logo' => logo, 'cigar_name' => cigar_name, 'location_name' => location_name,
+                      'search_button' => search_button, 'near' => near_label, 'separator1' => separator_left,
+                      'separator2' => separator_right
+      layout.metrics 'padding' => 35, 'button_height' => 38, 'input_height' => FormTextStyle::HEIGHT, 'near_padding' => 12
+      layout.vertical '|-padding-[logo]-padding-[cigar_name(==input_height)]'
+      layout.vertical '[cigar_name]-near_padding-[near]-near_padding-[location_name]'
+      layout.vertical '[location_name(==input_height)]-padding-[search_button(==38)]'
       layout.horizontal '|-[cigar_name]-|'
+      layout.horizontal '|-[separator1]-[near(>=40)]-[separator2(==separator1)]-|'
       layout.horizontal '|-[location_name]-|'
       layout.horizontal '|-[search_button]-|'
     end
@@ -50,6 +55,18 @@ class SearchFormScreen < ProMotion::Screen
 
   def autoCompleteTextField(text_field, possibleCompletionsForString: string)
     cigars.select { |item| item.downcase.start_with?(string.downcase) }
+  end
+
+  def keyboardWillShow(notification)
+    UIView.animateWithDuration(0.3, animations: lambda {
+      view.setFrame([[0,-150], view.frame.size])
+    })
+  end
+
+  def keyboardWillHide(notification)
+    UIView.animateWithDuration(0.3, animations: lambda {
+      view.setFrame([[0,0], view.frame.size])
+    })
   end
 
   private
@@ -91,15 +108,21 @@ class SearchFormScreen < ProMotion::Screen
     end
   end
 
-  def keyboardWillShow(notification)
-    UIView.animateWithDuration(0.3, animations: lambda {
-      view.setFrame([[0,-150], view.frame.size])
-    })
+  def near_label
+    @near_label ||= add UILabel.new,
+      text: 'near',
+      textColor: '#FEFFBF'.to_color,
+      backgroundColor: :clear.uicolor,
+      textAlignment: :center.uitextalignment
   end
 
-  def keyboardWillHide(notification)
-    UIView.animateWithDuration(0.3, animations: lambda {
-      view.setFrame([[0,0], view.frame.size])
-    })
+  def separator_image
+    @separator_image ||= UIImage.imageNamed('separator.png')
+  end
+
+  [:separator_left, :separator_right].each do |method|
+    define_method(method) do
+      UIImageView.alloc.initWithImage(separator_image)
+    end
   end
 end
