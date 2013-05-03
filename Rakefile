@@ -15,6 +15,7 @@ Motion::Project::App.setup do |app|
   app.pods do
     pod 'NSDate-TimeDifference', '~> 1.0.1'
     pod 'MLPAutoCompleteTextField', '~> 1.3'
+    pod 'SDWebImage', '~> 3.2'
   end
 
   app.info_plist['UIBackgroundModes'] = %w(location)

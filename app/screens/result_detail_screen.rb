@@ -9,17 +9,21 @@ class ResultDetailScreen < ProMotion::Screen
       layout.view view
       layout.subviews 'store_name' => store_name, 'store_address' => store_address,
                       'map_button' => map_button, 'directions_button' => directions_button, 'call_button' => call_button,
-                      'last_reported' => last_reported, 'report_carried' => report_carried,
-                      'report_not_carried' => report_not_carried
+                      'map_image' => map_image, 'last_reported' => last_reported
       layout.metrics 'padding_top' => 32, 'padding_side' => 36
       layout.vertical '|-padding_top-[store_name][store_address]-[map_button(==47)]', 0
       layout.horizontal '|-padding_side-[store_name]-padding_side-|'
       layout.horizontal '|-padding_side-[store_address]-padding_side-|'
       layout.horizontal '|-[map_button][directions_button(==map_button)][call_button(==map_button)]-|'
       layout.horizontal '|-[last_reported]-|'
-      layout.horizontal '|-[report_carried]-[report_not_carried(==report_carried)]-|'
-      layout.vertical '[last_reported]-[report_carried]-|', 0
+      layout.horizontal '|-21-[map_image]-21-|'
+      layout.vertical '[map_button]-[map_image]-|', 0
+      layout.vertical '[last_reported]-|'
     end
+  end
+
+  def on_appear
+    map_image.update_image
   end
 
   def updateViewConstraints
@@ -106,5 +110,9 @@ class ResultDetailScreen < ProMotion::Screen
         close(search_result: search_result, report_carried: false)
       end
     end
+  end
+
+  def map_image
+    @map_image ||= StaticMapView.new(search_result.cigar_store)
   end
 end
