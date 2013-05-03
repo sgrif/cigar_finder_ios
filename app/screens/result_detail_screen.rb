@@ -3,6 +3,7 @@ class ResultDetailScreen < ProMotion::Screen
 
   def will_appear
     self.title = search_result.cigar_store.name
+    view.insertSubview(background, atIndex: 0)
 
     Motion::Layout.new do |layout|
       layout.view view
@@ -29,6 +30,11 @@ class ResultDetailScreen < ProMotion::Screen
 
   private
 
+  def background
+    background_image = UIImage.imageNamed('detail_background')
+    UIImageView.alloc.initWithImage(background_image)
+  end
+
   def search_result_presenter
     @search_result_presenter ||= SearchResultPresenter.new(search_result)
   end
@@ -36,7 +42,9 @@ class ResultDetailScreen < ProMotion::Screen
   def store_name
     @store_name ||= add UILabel.new,
                         text: search_result.cigar_store.name,
-                        backgroundColor: :clear.uicolor
+                        backgroundColor: :clear.uicolor,
+                        textColor: '#95312E'.to_color,
+                        font: UIFont.systemFontOfSize(18)
   end
 
   def store_address
