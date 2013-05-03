@@ -3,7 +3,6 @@ class ResultDetailScreen < ProMotion::Screen
 
   def will_appear
     self.title = search_result.cigar_store.name
-    view.backgroundColor = :white.uicolor
 
     Motion::Layout.new do |layout|
       layout.view view
@@ -35,14 +34,17 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   def store_name
-    @store_name ||= add UILabel.new, text: search_result.cigar_store.name
+    @store_name ||= add UILabel.new,
+                        text: search_result.cigar_store.name,
+                        backgroundColor: :clear.uicolor
   end
 
   def store_address
     @store_address ||= add UILabel.new,
                            text: search_result.cigar_store.address,
                            lineBreakMode: NSLineBreakByWordWrapping,
-                           numberOfLines: 0
+                           numberOfLines: 0,
+                           backgroundColor: :clear.uicolor
   end
 
   def map_button
@@ -73,7 +75,8 @@ class ResultDetailScreen < ProMotion::Screen
     @last_reported ||= add UILabel.new,
                            text: search_result_presenter.last_report,
                            lineBreakMode: NSLineBreakByWordWrapping,
-                           numberOfLines: 0
+                           numberOfLines: 0,
+                           backgroundColor: :clear.uicolor
   end
 
   def report_carried
