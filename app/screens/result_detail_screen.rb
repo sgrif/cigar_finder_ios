@@ -10,15 +10,15 @@ class ResultDetailScreen < ProMotion::Screen
       layout.subviews 'store_name' => store_name, 'store_address' => store_address,
                       'map_button' => map_button, 'directions_button' => directions_button, 'call_button' => call_button,
                       'map_image' => map_image, 'last_reported' => last_reported
-      layout.metrics 'padding_top' => 32, 'padding_side' => 36
+      layout.metrics 'padding_top' => 32, 'padding_side' => 36, 'padding_bottom' => 14
       layout.vertical '|-padding_top-[store_name][store_address]-[map_button(==47)]', 0
       layout.horizontal '|-padding_side-[store_name]-padding_side-|'
       layout.horizontal '|-padding_side-[store_address]-padding_side-|'
       layout.horizontal '|-[map_button][directions_button(==map_button)][call_button(==map_button)]-|'
       layout.horizontal '|-[last_reported]-|'
       layout.horizontal '|-21-[map_image]-21-|'
-      layout.vertical '[map_button]-[map_image]-|', 0
-      layout.vertical '[last_reported]-|'
+      layout.vertical '[map_button]-[map_image]-padding_bottom-|', 0
+      layout.vertical '[last_reported]-padding_bottom-|'
     end
   end
 
@@ -28,9 +28,7 @@ class ResultDetailScreen < ProMotion::Screen
 
   def updateViewConstraints
     super
-    [store_address, last_reported].each do |label|
-      label.preferredMaxLayoutWidth = view.bounds.size.width - 40
-    end
+    store_address.preferredMaxLayoutWidth = view.bounds.size.width - 40
   end
 
   private
@@ -38,10 +36,6 @@ class ResultDetailScreen < ProMotion::Screen
   def background
     background_image = UIImage.imageNamed('detail_background')
     UIImageView.alloc.initWithImage(background_image)
-  end
-
-  def search_result_presenter
-    @search_result_presenter ||= SearchResultPresenter.new(search_result)
   end
 
   def store_name
@@ -87,11 +81,7 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   def last_reported
-    @last_reported ||= add UILabel.new,
-                           text: search_result_presenter.last_report,
-                           lineBreakMode: NSLineBreakByWordWrapping,
-                           numberOfLines: 0,
-                           backgroundColor: :clear.uicolor
+    @last_reported ||= LastReportedView.new(search_result)
   end
 
   def report_carried
