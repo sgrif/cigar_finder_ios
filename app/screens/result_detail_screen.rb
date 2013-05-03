@@ -11,10 +11,11 @@ class ResultDetailScreen < ProMotion::Screen
                       'map_button' => map_button, 'directions_button' => directions_button, 'call_button' => call_button,
                       'last_reported' => last_reported, 'report_carried' => report_carried,
                       'report_not_carried' => report_not_carried
-      layout.vertical '|-[store_name]-[store_address]-[map_button]', 0
-      layout.horizontal '|-[store_name]-|'
-      layout.horizontal '|-[store_address]-|'
-      layout.horizontal '|-[map_button]-[directions_button(==map_button)]-[call_button(==map_button)]-|'
+      layout.metrics 'padding_top' => 32, 'padding_side' => 36
+      layout.vertical '|-padding_top-[store_name][store_address]-[map_button(==47)]', 0
+      layout.horizontal '|-padding_side-[store_name]-padding_side-|'
+      layout.horizontal '|-padding_side-[store_address]-padding_side-|'
+      layout.horizontal '|-[map_button][directions_button(==map_button)][call_button(==map_button)]-|'
       layout.horizontal '|-[last_reported]-|'
       layout.horizontal '|-[report_carried]-[report_not_carried(==report_carried)]-|'
       layout.vertical '[last_reported]-[report_carried]-|', 0
@@ -52,12 +53,14 @@ class ResultDetailScreen < ProMotion::Screen
                            text: search_result.cigar_store.address,
                            lineBreakMode: NSLineBreakByWordWrapping,
                            numberOfLines: 0,
-                           backgroundColor: :clear.uicolor
+                           backgroundColor: :clear.uicolor,
+                           textColor: '#46382B'.to_color,
+                           font: UIFont.systemFontOfSize(12)
   end
 
   def map_button
-    @map_button ||= UIButton.rounded_rect.tap do |button|
-      button.setTitle('Map', forState: :normal.uistate)
+    @map_button ||= UIButton.new.tap do |button|
+      button.setBackgroundImage(UIImage.imageNamed('button_map'), forState: :normal.uistate)
       button.on(:touch) do
         App.open_url(search_result.cigar_store.map_url)
       end
@@ -65,8 +68,8 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   def directions_button
-    @directions_button ||= UIButton.rounded_rect.tap do |button|
-      button.setTitle('Directions', forState: :normal.uistate)
+    @directions_button ||= UIButton.new.tap do |button|
+      button.setBackgroundImage(UIImage.imageNamed('button_directions'), forState: :normal.uistate)
       button.on(:touch) do
         App.open_url(search_result.cigar_store.directions_url)
       end
@@ -74,8 +77,8 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   def call_button
-    @call_button ||= UIButton.rounded_rect.tap do |button|
-      button.setTitle('Call', forState: :normal.uistate)
+    @call_button ||= UIButton.new.tap do |button|
+      button.setBackgroundImage(UIImage.imageNamed('button_call'), forState: :normal.uistate)
     end
   end
 

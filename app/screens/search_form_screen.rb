@@ -120,9 +120,11 @@ class SearchFormScreen < ProMotion::Screen
     @separator_image ||= UIImage.imageNamed('separator.png')
   end
 
-  [:separator_left, :separator_right].each do |method|
-    define_method(method) do
-      UIImageView.alloc.initWithImage(separator_image)
-    end
+  def separator_left
+    @separator_left ||= UIImageView.alloc.initWithImage(separator_image)
+  end
+
+  def separator_right
+    @separator_right ||= UIImageView.alloc.initWithImage(separator_image)
   end
 end
