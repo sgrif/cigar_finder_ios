@@ -1,4 +1,6 @@
 class QueryUserDialog
+  YES_INDEX = 1
+  NO_INDEX = 0
   attr_reader :search_result
 
   def initialize(search_result)
@@ -16,7 +18,12 @@ class QueryUserDialog
   end
 
   def alertView(_, clickedButtonAtIndex: index)
-    puts "index #{index} was clicked"
+    case index
+      when YES_INDEX
+        search_result.report_carried
+      when NO_INDEX
+        search_result.report_not_carried
+    end
   end
 
   private
