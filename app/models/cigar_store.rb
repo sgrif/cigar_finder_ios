@@ -14,4 +14,8 @@ class CigarStore < Struct.new(:id, :name, :latitude, :longitude, :address, :crea
   def coordinate
     [latitude, longitude]
   end
+
+  def url
+    "http://cigar-finder.com/cigar_stores/#{id}"
+  end
 end

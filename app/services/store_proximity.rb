@@ -13,6 +13,7 @@ class StoreProximity
     NearbyStores.new(location).load do |cigar_stores|
       self.cigar_stores = cigar_stores
       update_proximity_alerts
+      @notification = StoreProximityNotification.new(cigar_stores.first).present
     end
   end
 
