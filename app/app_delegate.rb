@@ -1,5 +1,6 @@
 class AppDelegate < ProMotion::AppDelegateParent
   def on_load(app, options)
+    p options
     location_manager.listen_for_changes
     open_root_screen SearchFormScreen.new(nav_bar: true)
     window.backgroundColor = background
@@ -12,8 +13,8 @@ class AppDelegate < ProMotion::AppDelegateParent
   def background
     UIColor.colorWithPatternImage(background_image)
   end
-end
 
   def background_image
     UIImage.imageNamed('background.png')
   end
+end

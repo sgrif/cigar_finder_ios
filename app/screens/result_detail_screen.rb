@@ -20,6 +20,8 @@ class ResultDetailScreen < ProMotion::Screen
       layout.vertical '[map_button]-[map_image]-padding_bottom-|', 0
       layout.vertical '[last_reported]-padding_bottom-|'
     end
+
+    StoreProximityNotification.new(search_result.cigar_store).present
   end
 
   def on_appear
