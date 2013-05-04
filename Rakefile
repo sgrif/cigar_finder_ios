@@ -11,6 +11,7 @@ Motion::Project::App.setup do |app|
   app.name = 'Cigar Finder'
 
   app.frameworks += %w(CoreLocation MapKit QuartzCore)
+  app.files_dependencies 'app/app_delegate.rb' => 'app/app_delegate_parent.rb'
 
   app.pods do
     pod 'NSDate-TimeDifference', '~> 1.0.1'

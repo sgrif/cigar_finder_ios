@@ -1,9 +1,12 @@
-class AppDelegate < ProMotion::AppDelegateParent
+class AppDelegate < AppDelegateParent
   def on_load(app, options)
-    p options
     location_manager.listen_for_changes
     open_root_screen SearchFormScreen.new(nav_bar: true)
     window.backgroundColor = background
+  end
+
+  def on_notification_tapped(notification)
+    puts 'Notification tapped'
   end
 
   def location_manager
