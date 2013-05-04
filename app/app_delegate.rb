@@ -5,8 +5,12 @@ class AppDelegate < AppDelegateParent
     window.backgroundColor = background
   end
 
-  def on_notification_tapped(notification)
-    puts 'Notification tapped'
+  # @param [UILocalNotification] notification
+  # @param [UIApplication] app
+  def on_notification_tapped(app, notification)
+    search_result = SearchResult.deserialize(notification.userInfo['search_result'])
+    @query_dialog = QueryUserDialog.new(search_result).present
+    app.cancelLocalNotification(notification)
   end
 
   def location_manager

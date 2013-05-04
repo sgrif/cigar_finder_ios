@@ -10,6 +10,7 @@ class StoreProximityNotification
       App.shared.cancelAllLocalNotifications
       notification.alertBody = "Does #{search_result.cigar_store.name} carry #{search_result.cigar}?"
       notification.soundName = UILocalNotificationDefaultSoundName
+      notification.userInfo  = { search_result: search_result.serialize }
       App.shared.presentLocalNotificationNow(notification)
     end
     self
