@@ -36,7 +36,7 @@ class ResultsTableCells
     results.send(macro).map do |search_result|
       {
           title: search_result.cigar_store.name,
-          subtitle: ("Last reported #{search_result.updated_at.stringWithTimeDifference}" unless search_result.carried.nil?),
+          subtitle: search_result.carried.nil? ? '' : "Last reported #{search_result.updated_at.stringWithTimeDifference}",
           cell_style: :subtitle.uitablecellstyle,
           action: :search_result_tapped,
           arguments: { search_result: search_result }
