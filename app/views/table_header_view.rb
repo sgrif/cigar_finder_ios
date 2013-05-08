@@ -8,13 +8,13 @@ class TableHeaderView < UIView
 
   def layoutSubviews
     label.sizeToFit
-    background.frame = [[0,0],[label.size.width + 30,30]]
+    background.frame = [[-2,0],[label.size.width + 30,30]]
   end
 
   private
 
   def label
-    @label ||= UILabel.alloc.initWithFrame([[14,5],[0,0]]).tap do |label|
+    @label ||= UILabel.alloc.initWithFrame([[12,5],[0,0]]).tap do |label|
       label.text = text.upcase
       label.backgroundColor = :clear.uicolor
       label.textColor = :white.uicolor

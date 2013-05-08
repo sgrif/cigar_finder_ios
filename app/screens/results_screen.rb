@@ -1,15 +1,22 @@
-class ResultsScreen < ProMotion::SectionedTableScreen
+class ResultsScreen < ProMotion::Screen
+  include ProMotion::MotionTable::SectionedTable
+
   attr_accessor :cigar_name, :location_name, :results
-  attr_reader :table_data
+  attr_reader :table_data, :table_view
 
   def on_load
     @table_data ||= []
+    @image_view = add UIImageView.alloc.initWithImage(UIImage.imageNamed('table_view_background'))
+    @table_view = add UITableView.alloc.initWithFrame([[27,15],[268,390]])
+    @table_view.backgroundColor = :clear.uicolor
+    @table_view.dataSource = self
+    @table_view.delegate = self
     load_data
   end
 
   def table_data=(new_data)
     @table_data = new_data
-    update_table_data
+    update_table_view_data(new_data)
   end
 
   def will_appear
