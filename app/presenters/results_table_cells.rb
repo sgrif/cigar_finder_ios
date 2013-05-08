@@ -11,6 +11,10 @@ class ResultsTableCells
     @results = results
   end
 
+  def title_for(section)
+    cells[section][:title]
+  end
+
   def resort
     @cells = nil
     results.resort

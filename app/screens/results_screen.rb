@@ -1,4 +1,4 @@
-class ResultsScreen < ProMotion::GroupedTableScreen
+class ResultsScreen < ProMotion::SectionedTableScreen
   attr_accessor :cigar_name, :location_name, :results
   attr_reader :table_data
 
@@ -30,7 +30,19 @@ class ResultsScreen < ProMotion::GroupedTableScreen
     end
   end
 
+  def tableView(_, viewForHeaderInSection: section)
+    TableHeaderView.new(header_text_for(section))
+  end
+
+  def tableView(_, heightForHeaderInSection: section)
+    30
+  end
+
   private
+
+  def header_text_for(section)
+    table_data.title_for(section)
+  end
 
   def load_data
     LocationLookup.new(location_name).load do |location|
