@@ -1,4 +1,5 @@
 class TableHeaderView < UIView
+  HEIGHT = 30
   attr_reader :text
 
   def initialize(text)

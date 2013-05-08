@@ -7,7 +7,8 @@ class ResultsScreen < ProMotion::Screen
   def on_load
     @table_data ||= []
     @image_view = add UIImageView.alloc.initWithImage(UIImage.imageNamed('table_view_background'))
-    @table_view = add UITableView.alloc.initWithFrame([[27,15],[268,390]])
+    @table_view = add UITableView.alloc.initWithFrame([[22,15],[268,390]])
+    @table_view.contentInset = [15,0,0,0]
     @table_view.backgroundColor = :clear.uicolor
     @table_view.dataSource = self
     @table_view.delegate = self
@@ -42,7 +43,7 @@ class ResultsScreen < ProMotion::Screen
   end
 
   def tableView(_, heightForHeaderInSection: section)
-    30
+    TableHeaderView::HEIGHT
   end
 
   private
