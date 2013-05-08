@@ -12,6 +12,7 @@ class ResultsScreen < ProMotion::Screen
     @table_view.backgroundColor = :clear.uicolor
     @table_view.dataSource = self
     @table_view.delegate = self
+    #@table_view.separatorStyle = UITableViewCellSeparatorStyleNone
     load_data
   end
 
