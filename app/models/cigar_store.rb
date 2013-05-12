@@ -1,4 +1,4 @@
-class CigarStore < Struct.new(:id, :name, :latitude, :longitude, :address, :created_at, :updated_at)
+class CigarStore < Struct.new(:id, :name, :latitude, :longitude, :address, :phone_number, :created_at, :updated_at)
   alias_method :to_s, :name
 
   def map_url
@@ -9,6 +9,10 @@ class CigarStore < Struct.new(:id, :name, :latitude, :longitude, :address, :crea
   def directions_url
     encoded_address = address.dup.to_url_encoded.gsub('%20', '+')
     "http://maps.apple.com/?daddr=#{encoded_address}"
+  end
+
+  def phone_url
+    "tel:#{phone_number}".gsub(' ', '-')
   end
 
   def coordinate

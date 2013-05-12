@@ -77,6 +77,10 @@ class ResultDetailScreen < ProMotion::Screen
   def call_button
     @call_button ||= UIButton.new.tap do |button|
       button.setBackgroundImage(UIImage.imageNamed('button_call'), forState: :normal.uistate)
+      button.on(:touch) do
+        puts search_result.cigar_store.phone_url
+        App.open_url(search_result.cigar_store.phone_url)
+      end
     end
   end
 
