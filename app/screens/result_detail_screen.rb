@@ -43,7 +43,7 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   def detail_view
-    @detail_view ||= UIView.alloc.initWithFrame([[0,0], view.size]).tap do |view|
+    @detail_view ||= UIView.alloc.initWithFrame([[0,0], [320, 416]]).tap do |view|
       view.insertSubview(background, atIndex: 0)
 
       Motion::Layout.new do |layout|
@@ -65,14 +65,14 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   def flip_view
-    @flip_view ||= UIView.alloc.initWithFrame(view.frame).tap do |view|
+    @flip_view ||= UIView.alloc.initWithFrame([[0, 0], [320, 416]]).tap do |view|
       view.insertSubview(background, atIndex: 0)
 
       Motion::Layout.new do |layout|
         layout.view view
         layout.metrics 'padding_top' => 32, 'padding_side' => 36, 'padding_bottom' => 14
         layout.subviews 'report_carried' => report_carried, 'report_not_carried' => report_not_carried
-        layout.vertical '[report_carried]-[report_not_carried]-padding_bottom-|'
+        layout.vertical '[report_carried]-[report_not_carried]-padding_top-|'
         layout.horizontal '|-padding_side-[report_carried]-padding_side-|'
         layout.horizontal '|-padding_side-[report_not_carried]-padding_side-|'
       end
