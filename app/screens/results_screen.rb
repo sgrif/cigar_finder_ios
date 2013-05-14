@@ -35,7 +35,7 @@ class ResultsScreen < ProMotion::Screen
     if search_result
       args[:report_carried] ? search_result.report_carried : search_result.report_not_carried
       table_data.resort
-      update_table_data
+      update_table_view_data(table_data)
     end
   end
 
