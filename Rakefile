@@ -9,6 +9,7 @@ require 'bubble-wrap/location'
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'Cigar Finder'
+  app.version = '1.0.1'
 
   app.frameworks += %w(CoreLocation MapKit QuartzCore)
   app.files_dependencies 'app/app_delegate.rb' => 'app/app_delegate_parent.rb'
