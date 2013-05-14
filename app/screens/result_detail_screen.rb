@@ -1,24 +1,17 @@
 class ResultDetailScreen < ProMotion::Screen
   attr_accessor :search_result
 
-  def will_appear
+  def on_load
     self.title = search_result.cigar_store.name
-    view.insertSubview(background, atIndex: 0)
 
-    Motion::Layout.new do |layout|
-      layout.view view
-      layout.subviews 'store_name' => store_name, 'store_address' => store_address,
-                      'map_button' => map_button, 'directions_button' => directions_button, 'call_button' => call_button,
-                      'map_image' => map_image, 'last_reported' => last_reported
-      layout.metrics 'padding_top' => 32, 'padding_side' => 36, 'padding_bottom' => 14
-      layout.vertical '|-padding_top-[store_name][store_address]-[map_button(==47)]', 0
-      layout.horizontal '|-padding_side-[store_name]-padding_side-|'
-      layout.horizontal '|-padding_side-[store_address]-padding_side-|'
-      layout.horizontal '|-[map_button][directions_button(==map_button)][call_button(==map_button)]-|'
-      layout.horizontal '|-[last_reported]-|'
-      layout.horizontal '|-21-[map_image]-21-|'
-      layout.vertical '[map_button]-[map_image]-padding_bottom-|', 0
-      layout.vertical '[last_reported]-padding_bottom-|'
+    add detail_view
+
+    view.on_swipe_left do
+      flip_with_direction(UIViewAnimationTransitionFlipFromRight)
+    end
+
+    view.on_swipe_right do
+      flip_with_direction(UIViewAnimationTransitionFlipFromLeft)
     end
   end
 
@@ -32,6 +25,50 @@ class ResultDetailScreen < ProMotion::Screen
   end
 
   private
+
+  def flip_with_direction(direction)
+    UIView.beginAnimations(nil, context: nil)
+    UIView.setAnimationDuration(0.8)
+    UIView.setAnimationCurve(UIViewAnimationCurveEaseInOut)
+    UIView.setAnimationTransition(direction, forView: view, cache: true)
+    swap_views
+    UIView.commitAnimations
+  end
+
+  def swap_views
+    current_view = view.subviews.last
+    next_view = (current_view == detail_view ? flip_view : detail_view)
+    current_view.removeFromSuperview
+    add next_view
+  end
+
+  def detail_view
+    @detail_view ||= UIView.alloc.initWithFrame([[0,0], view.size]).tap do |view|
+      view.insertSubview(background, atIndex: 0)
+
+      Motion::Layout.new do |layout|
+        layout.view view
+        layout.subviews 'store_name' => store_name, 'store_address' => store_address,
+                        'map_button' => map_button, 'directions_button' => directions_button, 'call_button' => call_button,
+                        'map_image' => map_image, 'last_reported' => last_reported
+        layout.metrics 'padding_top' => 32, 'padding_side' => 36, 'padding_bottom' => 14
+        layout.vertical '|-padding_top-[store_name][store_address]-[map_button(==47)]', 0
+        layout.horizontal '|-padding_side-[store_name]-padding_side-|'
+        layout.horizontal '|-padding_side-[store_address]-padding_side-|'
+        layout.horizontal '|-[map_button][directions_button(==map_button)][call_button(==map_button)]-|'
+        layout.horizontal '|-[last_reported]-|'
+        layout.horizontal '|-21-[map_image]-21-|'
+        layout.vertical '[map_button]-[map_image]-padding_bottom-|', 0
+        layout.vertical '[last_reported]-padding_bottom-|'
+      end
+    end
+  end
+
+  def flip_view
+    @flip_view ||= UIView.alloc.initWithFrame(view.frame).tap do |view|
+      view.insertSubview(background, atIndex: 0)
+    end
+  end
 
   def background
     background_image = UIImage.imageNamed('detail_background')
@@ -78,7 +115,6 @@ class ResultDetailScreen < ProMotion::Screen
     @call_button ||= UIButton.new.tap do |button|
       button.setBackgroundImage(UIImage.imageNamed('button_call'), forState: :normal.uistate)
       button.on(:touch) do
-        puts search_result.cigar_store.phone_url
         App.open_url(search_result.cigar_store.phone_url)
       end
     end
